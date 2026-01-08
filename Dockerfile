@@ -20,12 +20,12 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Miniconda
+# Install Miniforge (replaces Miniconda to avoid Anaconda ToS issues)
 RUN wget \
-    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
     && mkdir /root/.conda \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh 
+    && bash Miniforge3-Linux-x86_64.sh -b -p /root/miniconda3 \
+    && rm -f Miniforge3-Linux-x86_64.sh 
 
 # Create Conda environment (Python 3.10)
 RUN conda create -n trellis2 python=3.10 -y
