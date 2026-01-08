@@ -642,4 +642,10 @@ if __name__ == "__main__":
         )),
     }
     
-    demo.launch(css=css, head=head)
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ip", type=str, default="127.0.0.1", help="The IP address to listen on.")
+    parser.add_argument("--port", type=int, default=7860, help="The port to listen on.")
+    args = parser.parse_args()
+
+    demo.launch(start_debug=True, server_name=args.ip, server_port=args.port, css=css, head=head)

@@ -12,6 +12,14 @@ if [ "$1" == "interactive" ]; then
     echo "Sleeping for interactive session..."
     sleep infinity
 else
-    echo "Running Web Demo..."
+    # Check for GPU
+    python -c "import torch; exit(0) if torch.cuda.is_available() else exit(1)"
+    if [ $? -ne 0 ]; then
+        echo "ERROR: No GPU detected! Make sure to run with '--gpus all'"
+        echo "Typical command: docker run --gpus all -p 7860:7860 trellis2"
+        exit 1
+    fi
+
+    echo "GPU Detected. Running Web Demo..."
     python app.py --ip 0.0.0.0 --port 7860
 fi

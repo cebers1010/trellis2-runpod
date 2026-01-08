@@ -42,6 +42,9 @@ RUN pip install -r requirements.txt
 # Copy the application code
 COPY . .
 
+# Make start script executable
+RUN chmod +x start.sh
+
 # Entrypoint
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "trellis2"]
-CMD ["python", "app.py"]
+CMD ["./start.sh"]
