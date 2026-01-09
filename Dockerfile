@@ -49,6 +49,9 @@ SHELL ["conda", "run", "-n", "trellis2", "/bin/bash", "-c"]
 COPY download_model.py .
 RUN python download_model.py
 
+# Install runpod and rembg (needed for preprocessing)
+RUN pip install runpod "rembg[gpu]"
+
 # Copy the application code
 COPY . .
 
@@ -57,4 +60,4 @@ RUN chmod +x start.sh
 
 # Entrypoint
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "trellis2"]
-CMD ["./start.sh"]
+CMD ["python", "-u", "handler.py"]
