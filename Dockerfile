@@ -36,8 +36,6 @@ WORKDIR /app
 
 # Copy requirements and install
 # We install these FIRST to cache layers suitable mostly only for updates to code
-# Copy requirements and install
-# We install these FIRST to cache layers suitable mostly only for updates to code
 COPY requirements.txt .
 RUN echo "Installing PyTorch and core dependencies..." && \
     pip install -v torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124 && \
