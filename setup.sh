@@ -57,17 +57,20 @@ fi
 
 # Get system information
 WORKDIR=$(pwd)
-if command -v nvidia-smi > /dev/null; then
-    PLATFORM="cuda"
-elif command -v rocminfo > /dev/null; then
-    PLATFORM="hip"
-else
-    echo "Error: No supported GPU found"
-    exit 1
+if [ -z "$PLATFORM" ]; then
+    if command -v nvidia-smi > /dev/null; then
+        PLATFORM="cuda"
+    elif command -v rocminfo > /dev/null; then
+        PLATFORM="hip"
+    else
+        echo "Error: No supported GPU found"
+        exit 1
+    fi
 fi
 
 if [ "$NEW_ENV" = true ] ; then
-    conda create -n trellis2 python=3.10
+    source /root/miniconda3/etc/profile.d/conda.sh
+    conda create -n trellis2 python=3.10 -y
     conda activate trellis2
     if [ "$PLATFORM" = "cuda" ] ; then
         pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
@@ -79,7 +82,7 @@ fi
 if [ "$BASIC" = true ] ; then
     pip install imageio imageio-ffmpeg tqdm easydict opencv-python-headless ninja trimesh transformers gradio==6.0.1 tensorboard pandas lpips zstandard
     pip install git+https://github.com/EasternJournalist/utils3d.git@9a4eb15e4021b67b12c460c7057d642626897ec8
-    sudo apt install -y libjpeg-dev
+    # sudo apt install -y libjpeg-dev # Already installed in Dockerfile
     pip install pillow-simd
     pip install kornia timm
 fi
