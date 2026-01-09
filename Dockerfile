@@ -27,30 +27,21 @@ RUN wget \
     && bash Miniforge3-Linux-x86_64.sh -b -p /root/miniconda3 \
     && rm -f Miniforge3-Linux-x86_64.sh 
 
+# Create Conda environment (Python 3.10)
+RUN conda create -n trellis2 python=3.10 -y
+SHELL ["conda", "run", "-n", "trellis2", "/bin/bash", "-c"]
+
 # Set working directory
 WORKDIR /app
 
-# Copy setup script and necessary local dependencies
-COPY setup.sh .
-COPY o-voxel o-voxel
-
-# Set platform for setup.sh to avoid GPU check failure during build
-ENV PLATFORM=cuda
-
-# Run setup script to create environment and install dependencies
-# We use --new-env to create 'trellis2' and install pytorch, and other flags for extensions
-RUN chmod +x setup.sh && \
-    ./setup.sh --new-env --basic --flash-attn --nvdiffrast --nvdiffrec --cumesh --o-voxel --flexgemm
-
-# Set shell to use the new environment for subsequent steps
-SHELL ["conda", "run", "-n", "trellis2", "/bin/bash", "-c"]
+# Copy requirements and install
+# We install these FIRST to cache layers suitable mostly only for updates to code
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 # Copy and run model download script to cache weights
 COPY download_model.py .
 RUN python download_model.py
-
-# Install runpod and rembg (needed for preprocessing)
-RUN pip install runpod "rembg[gpu]"
 
 # Copy the application code
 COPY . .
@@ -60,4 +51,4 @@ RUN chmod +x start.sh
 
 # Entrypoint
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "trellis2"]
-CMD ["python", "-u", "handler.py"]
+CMD ["./start.sh"]
