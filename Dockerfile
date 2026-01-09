@@ -39,6 +39,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+# Copy and run model download script to cache weights
+COPY download_model.py .
+RUN python download_model.py
+
 # Copy the application code
 COPY . .
 
