@@ -1,32 +1,54 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# requirements.txt — optimized for RunPod + PyTorch 2.6 / CUDA 12.4
+# ──────────────────────────────────────────────────────────────────────────────
+
 --extra-index-url https://download.pytorch.org/whl/cu124
 
+# Core utilities
 packaging
 wheel
 psutil
 
+# ── PyTorch & vision (already pinned — good)
 torch==2.6.0
 torchvision==0.21.0
 triton==3.2.0
+
+# Image / video processing
 pillow==12.0.0
 imageio==2.37.2
 imageio-ffmpeg==0.6.0
-tqdm==4.67.1
-easydict==1.13
 opencv-python-headless==4.12.0.88
+
+# 3D / geometry / ML
 trimesh==4.10.1
 transformers==4.57.3
-zstandard==0.25.0
 kornia==0.8.2
 timm==1.0.22
-gradio==6.0.1
+lpips
+
+# Progress / utils
+tqdm==4.67.1
+easydict==1.13
+zstandard==0.25.0
+
+# Monitoring / logging
 tensorboard
 pandas
-lpips
+
+# Build tools
 ninja
+
+# Custom / git wheels — keep order as-is (dependencies matter)
 git+https://github.com/EasternJournalist/utils3d.git@9a4eb15e4021b67b12c460c7057d642626897ec8
+
+# Custom pre-built wheels from JeffreyXiang's repo (very important order!)
 https://github.com/JeffreyXiang/Storages/releases/download/Space_Wheels_251210/flash_attn_3-3.0.0b1-cp39-abi3-linux_x86_64.whl
 https://github.com/JeffreyXiang/Storages/releases/download/Space_Wheels_251210/cumesh-0.0.1-cp310-cp310-linux_x86_64.whl
 https://github.com/JeffreyXiang/Storages/releases/download/Space_Wheels_251210/flex_gemm-0.0.1-cp310-cp310-linux_x86_64.whl
 https://github.com/JeffreyXiang/Storages/releases/download/Space_Wheels_251210/o_voxel-0.0.1-cp310-cp310-linux_x86_64.whl
 https://github.com/JeffreyXiang/Storages/releases/download/Space_Wheels_251210/nvdiffrast-0.4.0-cp310-cp310-linux_x86_64.whl
 https://github.com/JeffreyXiang/Storages/releases/download/Space_Wheels_251210/nvdiffrec_render-0.0.0-cp310-cp310-linux_x86_64.whl
+
+# Optional: if gradio is only used for local debug → consider moving it out
+gradio==6.0.1
