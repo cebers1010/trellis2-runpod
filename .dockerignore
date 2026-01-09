@@ -1,0 +1,51 @@
+
+# Git
+.git
+.gitignore
+.gitattributes
+.gitmodules
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+miniconda3/
+
+# IDEs
+.idea/
+.vscode/
+
+# RunPod/Docker specific
+Dockerfile
+.dockerignore
+
+# Temporary files mainly for local development
+tmp/
+*.log
