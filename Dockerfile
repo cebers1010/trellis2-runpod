@@ -1,6 +1,9 @@
 # Base image
 FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 
+# Early log to confirm build start
+RUN echo "Build process started..."
+
 # Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
